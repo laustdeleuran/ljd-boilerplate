@@ -1,2 +1,2 @@
-Site name: Drink less
-Abstract: Website to help patients test their potential need to get treatment for alcohol dependency.
+Site name: Vertic Generator
+Abstract: Std. Vertic Generator for Yeoman, Bower and Grunt.
