@@ -1,0 +1,53 @@
+/**
+* Base typographical setup (vertical rythm etc)
+*
+* @section Layout
+* @author echristensen
+*/
+
+@include establish-baseline;
+
+// Typography
+
+h1, h2, h3, h4 {
+	font-family: $font-stack-varela-round;
+	font-weight: 400;
+	line-height: 1.1em;
+}
+
+h1, h2 {
+	margin: 0 0 1em;
+}
+
+h1 {
+	margin: 0 0 em(25px, 48px);
+
+	font-size: em(48px);
+}
+
+p {
+	margin: 0 0 em(20px);
+}
+
+.deck {
+	font-size: em(20px);
+	line-height: 1.5em;
+	font-weight: 300;
+
+	color: $color-blue;
+}
+
+.entry {
+	font-size: em(14px);
+	line-height: 1.5em;
+}
+
+@include breakpoint(8) {
+	h1 {
+		margin: 0 0 em(50px, 48px);
+	}
+
+	.entry {
+		font-size: em(16px);
+	}
+}

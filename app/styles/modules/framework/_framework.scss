@@ -1,0 +1,19 @@
+/**
+* Mixins for browser alignment
+* 
+* Vertic base
+*
+* @section      Framework
+* @author       echristensen, ldeleuran
+*/
+@mixin clearfix-after {
+	&:after {
+		content: ".";
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden;
+	}
+	.ie7 & { min-height: 1px; }
+	.ie6 & { height: 1%; }
+}

@@ -1,0 +1,39 @@
+/**
+* Global stylesheet
+*
+* @section modules
+* @author rkalms
+*/
+
+body {
+	background: rgb(245,245,245) url(../images/background-grain.jpg) 0 0;
+	font-family: $font-stack-regular;
+
+	color: rgb(35,31,32);
+}
+
+.entry .image {
+	margin: 0 0 em(20px);
+
+	img, video, object, embed {
+		max-width: 100%;
+	}
+
+	figcaption {
+		font-size: em(14px);
+		line-height: 1.5em;
+		color: $color-grey;
+	}
+
+	&.left {
+		float: left;
+		margin: 0 em(20px) 0 0;
+		width: 38.694267516%; /* 243/628 */
+	}
+
+	&.right {
+		float: right;
+		margin: 0 0 0 em(20px);
+		width: 38.694267516%; /* 243/628 */
+	}
+}

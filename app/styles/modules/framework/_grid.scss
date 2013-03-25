@@ -1,0 +1,80 @@
+/**
+* Grid implementation.
+*
+* @section framework
+* @author rkalms
+*/
+
+.container {
+	width: 100%;
+}
+
+.container-inner {
+	margin-left: auto; 
+	margin-right: auto;
+	padding-left: (em($grid-gutter) / 2);
+	padding-right: (em($grid-gutter) / 2);
+}
+
+.section {
+	overflow: hidden;
+	display: block;
+	padding: 0;
+	margin: 0 -0.5 * em($grid-gutter);
+	letter-spacing: -0.31em;
+	word-spacing: -0.43em;
+}
+
+.section-cell {
+	float: left;
+	display: inline-block;
+	margin: 0;
+	padding: 0 0.5 * em($grid-gutter);
+	// padding: 0; //0 0.5 * em($grid-gutter);
+	width: 100%;
+
+	letter-spacing: normal;
+	word-spacing: normal;
+	text-rendering: auto;
+
+	@include box-sizing(border-box);
+}
+
+/* find width of columns */
+@function column($col) {
+	@return $col * em($grid-column + $grid-gutter);
+}
+
+@mixin breakpoint($min, $layout: false) {
+	@media (min-width: column($min)) {
+		@if $layout == 'layout' {
+			/* create a fixed width centered layout */
+			.container-inner {
+				width: column($min) - em($grid-gutter);
+				margin-right: auto; 
+				margin-left: auto;
+			}	
+		}
+
+		/* css gradient overlay to help visualize columns */
+		body.grid-overlay:after {
+			content: ''; 
+			position: fixed; 
+			top: 0; 
+			bottom: 0; 
+			pointer-events: none; 
+			left: 50%;
+			width: column($min) + em($grid-gutter); 
+			margin-left: column($min) / -2 - (em($grid-gutter)/2);
+			z-index: 2000;
+			//display: none;
+
+			background: -webkit-linear-gradient(left, transparent $grid-gutter, rgba(255, 0, 0, 0.1) $grid-gutter, rgba(255, 0, 0, 0.1) $grid-column);
+
+			-webkit-background-size: $grid-gutter + $grid-column;
+		}
+
+		// CSS to be included in media query.
+		@content
+	}
+}

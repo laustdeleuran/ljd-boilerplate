@@ -1,0 +1,55 @@
+/**
+* Base variables and function definitions
+*
+* @section framework
+* @author rkalms
+*/
+
+// ---------------------------------------------------------------------------
+// Base variables
+
+$base-font-size: 16px;
+$base-line-height: 22px;
+$container-style: static;
+
+// ---------------------------------------------------------------------------
+// Functions
+
+@function em($target, $context: $base-font-size) {
+	@if $target == 0 {
+		@return 0
+	}
+	
+	@return $target / $context + 0em;
+}
+
+
+// ---------------------------------------------------------------------------
+// Basic Grid setup
+
+/* grid column size variables */
+$grid-column: 61px;
+$grid-gutter: 20px;
+
+/*  */
+$media-col8: em(668px) 8;
+$media-col12: em(992px) 12;
+
+$show-grid-backgrounds: true;
+
+// ---------------------------------------------------------------------------
+// Colors
+
+// Generics
+$color-blue: rgb(255,255,255); // white
+
+// UI colors
+// Button colors
+
+// Font colors
+
+
+// ---------------------------------------------------------------------------
+// Font stack
+
+$font-stack-regular: 'Helvetica Neue', Helvetica, Arial, sans-serif;
