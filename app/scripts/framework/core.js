@@ -7,6 +7,10 @@
 * @author ldeleuran
 * @modifiedby echristensen
 */
+
+/*jslint plusplus: true, vars: true, browser: true, white:true*/
+/*global require: true, Modernizr: true*/
+
 define(['jquery', 'framework/log', 'framework/error'], function($, log, error){
 	var core = {};
 	core.log = new log.Class();
