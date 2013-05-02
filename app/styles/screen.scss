@@ -24,7 +24,7 @@
 // ---------------------------------------------------------------------------
 // Default typography and images for the site
 
-@import "modules/layout/sprites";
+//@import "modules/layout/sprites"; // Only enable if there are files present
 @import "modules/framework/typography"; // Must be imported after base
 @import "modules/global";
 
