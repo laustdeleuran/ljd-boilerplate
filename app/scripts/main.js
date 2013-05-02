@@ -7,15 +7,11 @@
  */
 
 /*jslint plusplus: true, vars: true, browser: true, white:true*/
-/*global require: true*/
+/*global require: true, Modernizr: true*/
 
 require.config({
 	paths: {
-		'jquery': 'libs/jquery-1.9.1',
-		'modernizr': 'libs/modernizr-2.6.2'
-	},
-	shim: {
-		'modernizr': []
+		'jquery': '../components/jquery/jquery',
 	}
 });
 
@@ -23,12 +19,18 @@ require(['jquery'], function($) {
 	'use strict';
 
 	// Establish dependencies the new way
-	var Modernizr = require(['modernizr']),
-		core = require(['framework/core']);
+	var core = require(['framework/core']);
 
+
+	// Document ready
 	$(function () {
+		// Expose core as vertic first for debugging reasons
 		window.vertic = core;
 
+
+		/*
+				*** YOUR CODE HERE ***
+		*/
 
 	});
 });
