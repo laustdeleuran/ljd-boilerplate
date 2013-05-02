@@ -1,5 +1,6 @@
 /.sass-cache
 /node_modules
 /app/css
+/app/components
 ._*
 .DS_Store
