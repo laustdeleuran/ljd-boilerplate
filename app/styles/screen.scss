@@ -2,7 +2,7 @@
 * Main project stylesheet combiner
 *
 * @section Setup
-* @author rkalms
+* @author <fill-me>
 */
 // ---------------------------------------------------------------------------
 // Fonts
@@ -22,16 +22,15 @@
 @import "modules/framework/grid";
 
 // ---------------------------------------------------------------------------
-// Default typography and images for the site
+// Default typography for the site
 
-@import "modules/layout/sprites";
-@import "modules/framework/typography"; // Must be imported after base
-@import "modules/global";
+//@import "modules/layout/sprites"; // Only enable if there are files present
+@import "modules/framework/typography";
 
 // ---------------------------------------------------------------------------
 // Modules
 
-@import "modules/global";
+
 
 // ---------------------------------------------------------------------------
 // Basic layout and default typography for the site

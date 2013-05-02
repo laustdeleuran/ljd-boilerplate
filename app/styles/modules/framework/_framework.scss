@@ -1,10 +1,8 @@
 /**
 * Mixins for browser alignment
-* 
-* Vertic base
 *
-* @section      Framework
-* @author       echristensen, ldeleuran
+* @section Framework
+* @author echristensen
 */
 @mixin clearfix-after {
 	&:after {
@@ -15,5 +13,4 @@
 		visibility: hidden;
 	}
 	.ie7 & { min-height: 1px; }
-	.ie6 & { height: 1%; }
 }

@@ -5,7 +5,11 @@
 *
 * @author ldeleuran
 **/
-define(['modernizr', 'framework/core', 'libraries/JSON'], function (Modernizr, core) {
+
+/*jslint plusplus: true, vars: true, browser: true, white:true*/
+/*global require: true, Modernizr: true*/
+
+define(['framework/core', 'libraries/json2'], function (core) {
 	var localStore, namespace;
 
 	// Detect if local storage i available
