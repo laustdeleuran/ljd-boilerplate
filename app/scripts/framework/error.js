@@ -12,54 +12,66 @@
 /*global require: true, Modernizr: true*/
 
 define(['jquery', 'framework/log'], function($, log) {
-	var Error = function(){};
-	Error.prototype = new log.Class();
-	Error.prototype.parent = log.Class.prototype;
-	Error.prototype.write = function(arg,status,msg,die){
-		var orgArg = arg;
-		
-		// Set optional parameters
-		if (typeof status === 'undefined') {
-			status = 'unknown';
-		}
-		if (typeof msg === 'undefined') {
-			msg = '';
-		}
-		if (typeof die !== 'boolean') {
-			die = false;
-		}
-		
-		// Add metadata
-		arg = this.addMeta(arg);
-		if (this.meta) {
-			arg.error = true;
-			arg.errorType = status.toString();
-			arg.errorMsg = msg.toString();
-		}
-		
-		// Push object to internal log
-		this.history.push(arg);
-		
-		// Throw JS error if needed or simple warning if possible
-		if (die) {
-			throw new Error(status+': '+msg);
-		} else {
-			try { console.warn(status+': '+msg, arg); } catch(err) {}
-		}
-		
-		// Make loud debugging noises
-		if (this.debug || typeof forceDebug !== 'undefined') {
-			alert('Error: ' + orgArg);
-		}
-		
-		// Call to very basic DOM based console for browsers with no native console
-		this.callDomConsole(arg);
-		
-		// TODO: Service call?
-		
-		// Return base argument
-		return orgArg;
+	'use strict';
+	var defaults, history;
+
+	defaults = {
+		fileName: undefined,
+		lineNumber: undefined,
+		doPhoneHome: false,
+		url: 'http://debug.vertic.com/js',
+		severity: 1,
+		doThrow: false,
+		debug: window.location.href.indexOf('jsdebug=true') > -1 ? true : false
 	};
-	
-	return { Class: Error };
+	history = [];
+
+	function Err (msg, options) {
+		var settings = $.extend(defaults, options);
+
+		history.push(this);
+		this.settings = settings;
+		this.id = history.length;
+		this.time = Date.now();
+
+		this.user = {
+			windowInnerWidth: window.innerWidth,
+			windowInnerHeight: window.innerHeight,
+			userAgent: navigator.userAgent
+		};
+
+		if (settings.debug) {
+			alert(
+				'Error: ' + msg +
+				(settings.fileName ? ' - File: ' + settings.fileName + ' - ' : '') +
+				(settings.lineNumber ? ' - Line number: ' + settings.lineNumber + ' - ' : '')
+			);
+		}
+
+		if (settings.doPhoneHome) {
+			this.image = new Image();
+			this.image.src = settings.url +
+				'?msg=' + encodeURIComponent(msg) +
+				(settings.fileName ? '&fn=' + encodeURIComponent(settings.fileName) : '') +
+				(settings.lineNumber ? '&ln=' + encodeURIComponent(settings.lineNumber) : '') +
+				'&w=' + encodeURIComponent(this.user.windowInnerWidth) +
+				'&h=' + encodeURIComponent(this.user.windowInnerHeight) +
+				'&ua=' + encodeURIComponent(this.user.userAgent) +
+				'&sv=' + encodeURIComponent(settings.severity) +
+				'&url=' + encodeURIComponent(window.location.href);
+		}
+
+		if (settings.doThrow) {
+			throw new Error(msg, settings.fileName, settings.lineNumber);
+		} else {
+			log.log('Error: ' + msg, this);
+		}
+
+		return this;
+	}
+
+	return {
+		Class: Err,
+		history: history
+	};
 });

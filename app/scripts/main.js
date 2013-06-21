@@ -15,21 +15,17 @@ require.config({
 	}
 });
 
-require(['jquery'], function($) {
+require(['framework/core', 'jquery'], function(core, $) {
 	'use strict';
 
-	// Establish dependencies the new way
-	var core = require(['framework/core']);
-
+	// Expose core as vertic first for debugging reasons
+	window.vertic = core;
 
 	// Document ready
 	$(function () {
-		// Expose core as vertic first for debugging reasons
-		window.vertic = core;
-
 
 		/*
-				*** YOUR CODE HERE ***
+				*** YOUR CODE HERE OR IN MODULES ***
 		*/
 
 	});

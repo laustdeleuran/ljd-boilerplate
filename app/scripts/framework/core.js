@@ -12,9 +12,18 @@
 /*global require: true, Modernizr: true*/
 
 define(['jquery', 'framework/log', 'framework/error'], function($, log, error){
-	var core = {};
-	core.log = new log.Class();
-	core.error = new error.Class();
+	'use strict';
+	var core, $body;
+
+	core = {};
+
+	// Logging
+	core.log = log.log;
+	log.polyfill();
+
+	// Error handling
+	core.Error = error.Class;
+	core.errors = error.history;
 
 	// Toggle grid on SHIFT keydown REMOVE!
 	function setCookie(c_name,value,exdays) {
@@ -23,7 +32,7 @@ define(['jquery', 'framework/log', 'framework/error'], function($, log, error){
 		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
 		document.cookie=c_name + "=" + c_value;
 	}
-	
+
 	function getCookie(c_name) {
 		var i,x,y,ARRcookies=document.cookie.split(";");
 		for (i=0;i<ARRcookies.length;i++) {
@@ -35,21 +44,22 @@ define(['jquery', 'framework/log', 'framework/error'], function($, log, error){
 			}
 		}
 	}
-	
+
+	$body = $(document.body);
 	if (!getCookie('showgrid')) {
-		$('body').removeClass('grid-overlay');
+		$body.removeClass('grid-overlay');
 	} else {
-		$('body').addClass('grid-overlay');
+		$body.addClass('grid-overlay');
 	}
-	
-	$('body').keydown(function(e){
+
+	$body.keydown(function(e){
 		if(e.which == 16){
 			if (getCookie('showgrid')) {
 				setCookie('showgrid',true,-1);
-				$(this).removeClass('grid-overlay');
+				$body.removeClass('grid-overlay');
 			} else {
 				setCookie('showgrid',true,999);
-				$(this).addClass('grid-overlay');
+				$body.addClass('grid-overlay');
 			}
 		}
 	});

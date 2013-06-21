@@ -36,7 +36,7 @@ module.exports = function (grunt) {
 			livereload: {
 				files: [
 					'<%= yeoman.app %>/{,*/}*.html',
-					'{.tmp,<%= yeoman.app %>}/css/{,*/}*.css',
+					'{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
 					'{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
 					'<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,webp}'
 				],
@@ -111,7 +111,7 @@ module.exports = function (grunt) {
 		compass: {
 			options: {
 				sassDir: '<%= yeoman.app %>/styles',
-				cssDir: '<%= yeoman.app %>/css',
+				cssDir: '<%= yeoman.app %>/styles',
 				imagesDir: '<%= yeoman.app %>/images',
 				javascriptsDir: '<%= yeoman.app %>/scripts',
 				fontsDir: '<%= yeoman.app %>/styles/fonts',
