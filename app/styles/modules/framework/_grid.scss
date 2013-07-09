@@ -5,18 +5,18 @@
 * @author rkalms
 */
 
-.container {
+.grid {
 	width: 100%;
 }
 
-.container-inner {
+.grid-inner {
 	margin-left: auto; 
 	margin-right: auto;
 	padding-left: (em($grid-gutter) / 2);
 	padding-right: (em($grid-gutter) / 2);
 }
 
-.section {
+.grid-section {
 	overflow: hidden;
 	display: block;
 	padding: 0;
@@ -25,7 +25,7 @@
 	word-spacing: -0.43em;
 }
 
-.section-cell {
+.grid-cell {
 	float: left;
 	display: inline-block;
 	margin: 0;
@@ -49,7 +49,7 @@
 	@media (min-width: column($min)) {
 		@if $layout == 'layout' {
 			/* create a fixed width centered layout */
-			.container-inner {
+			.grid-inner {
 				width: column($min) - em($grid-gutter);
 				margin-right: auto; 
 				margin-left: auto;
