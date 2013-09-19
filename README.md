@@ -3,7 +3,7 @@
 
 Fill out these things in the README:
 
-* Meta data: Lead developer.
+* Meta data: Name of lead developer.
 * Installation guide.
 * Dependencies (like nodejs, ruby, grunt, bower and compass).
 * Explanation about patterns or frameworks in use (like backbone or other internal framework, with link to further documentation).

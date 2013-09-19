@@ -27,9 +27,11 @@ define(['jquery', 'framework/log'], function($, log) {
 	history = [];
 
 	function Err (msg, options) {
-		var settings = $.extend(defaults, options);
+		var settings = $.extend({}, defaults, options);
 
 		history.push(this);
+
+		this.msg = msg;
 		this.settings = settings;
 		this.id = history.length;
 		this.time = Date.now();
@@ -40,13 +42,31 @@ define(['jquery', 'framework/log'], function($, log) {
 			userAgent: navigator.userAgent
 		};
 
+		this.debug();
+
+		this.phoneHome();
+
+		if (settings.doThrow) {
+			this.throwError();
+		} else {
+			log.log('Error: ' + msg, this);
+		}
+
+		return this;
+	}
+	Err.prototype.debug = function () {
+		var settings = this.settings;
+
 		if (settings.debug) {
 			alert(
-				'Error: ' + msg +
+				'Error: ' + this.msg +
 				(settings.fileName ? ' - File: ' + settings.fileName + ' - ' : '') +
 				(settings.lineNumber ? ' - Line number: ' + settings.lineNumber + ' - ' : '')
 			);
 		}
+	};
+	Err.prototype.phoneHome = function () {
+		var settings = this.settings;
 
 		if (settings.doPhoneHome) {
 			this.image = new Image();
@@ -60,15 +80,10 @@ define(['jquery', 'framework/log'], function($, log) {
 				'&sv=' + encodeURIComponent(settings.severity) +
 				'&url=' + encodeURIComponent(window.location.href);
 		}
-
-		if (settings.doThrow) {
-			throw new Error(msg, settings.fileName, settings.lineNumber);
-		} else {
-			log.log('Error: ' + msg, this);
-		}
-
-		return this;
-	}
+	};
+	Err.prototype.throwError = function () {
+		throw new Error(this.msg, this.settings.fileName, this.settings.lineNumber);
+	};
 
 	return {
 		Class: Err,
