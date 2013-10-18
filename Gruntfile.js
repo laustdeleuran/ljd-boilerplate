@@ -4,6 +4,7 @@
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 
 var mountFolder = function (connect, dir) {
+	
 	return connect.static(require('path').resolve(dir));
 };
 
@@ -20,11 +21,65 @@ module.exports = function (grunt) {
 	// configurable paths
 	var yeomanConfig = {
 		app: 'app',
-		dist: 'dist'
+		dist: 'build'
 	};
+
+	// Fix require js config - https://vickev.com/#!/article/grunt-the-perfect-tool-for-require-js
+	var _ = grunt.util._, // we load lodash (underscore variable)
+	config = require('./app/scripts/require.config.js'); // we load the r.js config
 
 	grunt.initConfig({
 		yeoman: yeomanConfig,
+		modernizr: {
+			// [REQUIRED] Path to the build you're using for development.
+			'devFile' : '<%= yeoman.app %>/components/modernizr/modernizr.js',
+
+			// [REQUIRED] Path to save out the built file.
+			'outputFile' : '<%= yeoman.app %>/scripts/libs/modernizr-built.js',
+
+			// Based on default settings on http://modernizr.com/download/
+			'extra' : {
+				'shiv' : true,
+				'printshiv' : false,
+				'load' : true,
+				'mq' : false,
+				'cssclasses' : true
+			},
+
+			// Based on default settings on http://modernizr.com/download/
+			'extensibility' : {
+				'addtest' : false,
+				'prefixed' : false,
+				'teststyles' : false,
+				'testprops' : false,
+				'testallprops' : false,
+				'hasevents' : false,
+				'prefixes' : false,
+				'domprefixes' : false
+			},
+
+			// By default, source is uglified before saving
+			'uglify' : true,
+
+			// Define any tests you want to implicitly include.
+			'tests' : [],
+
+			// By default, this task will crawl your project for references to Modernizr tests.
+			// Set to false to disable.
+			'parseFiles' : true,
+
+			// When parseFiles = true, this task will crawl all *.js, *.css, *.scss files, except files that are in node_modules/.
+			// You can override this by defining a 'files' array below.
+			'files' : ['<%= yeoman.app %>/scripts/{,*/}*.js','<%= yeoman.app %>/styles/{,*/}*.css'],
+			'excludeFiles': ['<%= yeoman.app %>/scripts/libs/modernizr-built.js','<%= yeoman.app %>/components/modernizr/modernizr.js'],
+
+			// When parseFiles = true, matchCommunityTests = true will attempt to
+			// match user-contributed tests.
+			'matchCommunityTests' : false,
+
+			// Have custom Modernizr tests? Add paths to their location here.
+			'customTests' : [],
+		},
 		watch: {
 			compass: {
 				files: [
@@ -47,7 +102,7 @@ module.exports = function (grunt) {
 			options: {
 				port: 1337,
 				// change this to '0.0.0.0' to access the server from outside
-				hostname: '0.0.0.0'
+				hostname: 'localhost'
 			},
 			livereload: {
 				options: {
@@ -80,12 +135,12 @@ module.exports = function (grunt) {
 		},
 		open: {
 			server: {
-				path: 'http://localhost:<%= connect.options.port %>'
+				path: 'http://<%= connect.options.hostname %>:<%= connect.options.port %>'
 			}
 		},
 		clean: {
-			dist: ['.tmp', '<%= yeoman.dist %>/*'],
-			server: '<%= yeoman.app %>/css'
+			dist: ['.tmp', '<%= yeoman.app %>/styles/*.css', '<%= yeoman.app %>/images/sprites-*.png', '<%= yeoman.dist %>/*'],
+			server: ['<%= yeoman.app %>/styles/*.css']
 		},
 		jshint: {
 			options: {
@@ -104,7 +159,7 @@ module.exports = function (grunt) {
 			all: {
 				options: {
 					run: true,
-					urls: ['http://localhost:<%= connect.options.port %>/index.html']
+					urls: ['http://<%= connect.options.hostname %>:<%= connect.options.port %>/index.html']
 				}
 			}
 		},
@@ -116,50 +171,48 @@ module.exports = function (grunt) {
 				javascriptsDir: '<%= yeoman.app %>/scripts',
 				fontsDir: '<%= yeoman.app %>/styles/fonts',
 				importPath: '<%= yeoman.app %>/styles/modules',
-				relativeAssets: true
+				relativeAssets: true,
+				outputStyle: 'expanded'
 			},
-			dist: {},
+			dist: {
+				options: {
+					debugInfo: false,
+					noLineComments: true,
+					environment: 'production'
+				}
+			},
 			server: {
 				options: {
-					debugInfo: true
+					debugInfo: true,
+					environment: 'development'
 				}
 			}
 		},
-		// not used since Uglify task does concat,
-		// but still available if needed
-		/*concat: {
-			dist: {}
-		},*/
 		requirejs: {
-			dist: {
-				// Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
-				options: {
-					// `name` and `out` is set by grunt-usemin
-					baseUrl: 'app/scripts',
-					optimize: 'none',
-					// TODO: Figure out how to make sourcemaps work with grunt-usemin
-					// https://github.com/yeoman/grunt-usemin/issues/30
-					//generateSourceMaps: true,
-					// required to support SourceMaps
-					// http://requirejs.org/docs/errors.html#sourcemapcomments
+			compile: {
+				options: _.merge(config, {
+					name: 'main',
+					findNestedDependencies: true,
+					baseUrl: '<%= yeoman.app %>/scripts',
+					out: '<%= yeoman.app %>/scripts/main-built.js',
 					preserveLicenseComments: false,
 					useStrict: true,
-					wrap: true,
-					//uglify2: {} // https://github.com/mishoo/UglifyJS2
-				}
+					optimize: 'uglify2',
+					generateSourceMaps: true
+				})
 			}
 		},
 		useminPrepare: {
 			html: '<%= yeoman.app %>/index.html',
 			options: {
-				dest: '<%= yeoman.dist %>'
+				dest: '<%= yeoman.app %>'
 			}
 		},
 		usemin: {
-			html: ['<%= yeoman.dist %>/{,*/}*.html'],
-			css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+			html: ['<%= yeoman.app %>/{,*/}*.html'],
+			css: ['<%= yeoman.app %>/styles/{,*/}*.css'],
 			options: {
-				dirs: ['<%= yeoman.dist %>']
+				dirs: ['<%= yeoman.app %>']
 			}
 		},
 		imagemin: {
@@ -168,39 +221,22 @@ module.exports = function (grunt) {
 					expand: true,
 					cwd: '<%= yeoman.app %>/images',
 					src: '{,*/}*.{png,jpg,jpeg}',
-					dest: '<%= yeoman.dist %>/images'
+					dest: '<%= yeoman.app %>/images'
 				}]
 			}
 		},
 		cssmin: {
 			dist: {
 				files: {
-					'<%= yeoman.dist %>/styles/main.css': [
-						'.tmp/styles/{,*/}*.css',
-						'<%= yeoman.app %>/styles/{,*/}*.css'
+					'<%= yeoman.app %>/styles/style.min.css': [
+						'.tmp/styles/style.css',
+						'<%= yeoman.app %>/styles/style.css'
+					],
+					'<%= yeoman.app %>/styles/print.min.css': [
+						'.tmp/styles/print.css',
+						'<%= yeoman.app %>/styles/print.css'
 					]
 				}
-			}
-		},
-		htmlmin: {
-			dist: {
-				options: {
-					/*removeCommentsFromCDATA: true,
-					// https://github.com/yeoman/grunt-usemin/issues/44
-					//collapseWhitespace: true,
-					collapseBooleanAttributes: true,
-					removeAttributeQuotes: true,
-					removeRedundantAttributes: true,
-					useShortDoctype: true,
-					removeEmptyAttributes: true,
-					removeOptionalTags: true*/
-				},
-				files: [{
-					expand: true,
-					cwd: '<%= yeoman.app %>',
-					src: '*.html',
-					dest: '<%= yeoman.dist %>'
-				}]
 			}
 		},
 		copy: {
@@ -209,7 +245,7 @@ module.exports = function (grunt) {
 					expand: true,
 					dot: true,
 					cwd: '<%= yeoman.app %>',
-					dest: '<%= yeoman.dist %>',
+					dest: '<%= yeoman.app %>',
 					src: [
 						'*.{ico,txt}',
 						'.htaccess'
@@ -227,6 +263,7 @@ module.exports = function (grunt) {
 	grunt.renameTask('regarde', 'watch');
 
 	grunt.registerTask('server', function (target) {
+
 		if (target === 'dist') {
 			return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
 		}
@@ -251,13 +288,11 @@ module.exports = function (grunt) {
 	grunt.registerTask('build', [
 		'clean:dist',
 		'compass:dist',
+		'modernizr',
 		'useminPrepare',
 		'requirejs',
 		'imagemin',
-		'htmlmin',
-		'concat',
 		'cssmin',
-		'uglify',
 		'copy',
 		'usemin'
 	]);
