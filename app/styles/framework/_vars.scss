@@ -1,47 +1,20 @@
 /**
-* Mixins for browser alignment
+* Variables
 *
-* @section Framework
-* @author echristensen
+* @section framework
+* @author ljd
 */
-%clearfix-after {
-	&:after {
-		content: ".";
-		display: block;
-		height: 0;
-		clear: both;
-		visibility: hidden;
-	}
-	.ie7 & { min-height: 1px; }
-}
-%hide-text {
-	text-indent:100%;
-	white-space:nowrap;
-	overflow:hidden;
-}
-%pseudo-block {
-	@extend %hide-text;	
-	content:".";
-	display:block;
-}
-@mixin poly-before {
-	&:before {
-		content:"\2009";
-		@content;
-	}
-	&>.before {
-		@content;
-	}
-}
-@mixin poly-after {
-	&:after {
-		content:"\2009";
-		@content;
-	}
-	&>.after {
-		@content;
-	}
-}
+
+// Framework dependent variables
+$base-font-size: 16px;
+$base-line-height: 22px;
+
+// Project variables
+$color-blue: rgb(0, 0, 255);
+$color-black: rgb(0, 0, 0);
+
+$font-stack: Arial, Helvetica, 'Helvetica Neue', sans-serif;
+
 // Easing - http://matthewlein.com/ceaser/
 $easing-linear: cubic-bezier(0.250, 0.250, 0.750, 0.750);
 $easing-ease: cubic-bezier(0.250, 0.100, 0.250, 1.000);

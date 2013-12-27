@@ -3,7 +3,7 @@
 *
 * Local storage polyfill
 *
-* @author ldeleuran
+* @author ljd
 **/
 
 /*jslint plusplus: true, vars: true, browser: true, white:true*/
@@ -25,11 +25,13 @@ define(['framework/core', 'libraries/json2'], function (core) {
 	}
 
 	// Set up namespace and save function
-	namespace = 'lundbeckvorioxetineeventapp';
+	namespace = 'ljd';
+
 	if (window.location.href.indexOf('localhost') > -1) { // TODO: Remove this piece of cachebusting crap
 		var dateNow = new Date();
 		namespace += dateNow.getFullYear().toString() + (dateNow.getMonth() + 1).toString() + dateNow.getDate().toString() + dateNow.getHours().toString();
 	}
+	
 	localStore = function (id, val) {
 		var data = localStorage.getItem(namespace), obj = {};
 

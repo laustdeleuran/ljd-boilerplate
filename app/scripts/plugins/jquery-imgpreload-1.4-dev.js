@@ -4,7 +4,7 @@
 * jQuery image preload plugin
 *
 * @section Plugin
-* @author ldeleuran
+* @author ljd
 */
 define(['jquery'], function (jQuery) {
 	/* v1.4 */

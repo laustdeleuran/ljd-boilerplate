@@ -1,0 +1,20 @@
+/**
+* Tables
+*
+* @section quarks
+* @author ljd
+*/
+table {
+	@include trailer(1);
+}
+table,
+tr,
+td,
+th {
+	text-align: left;
+	vertical-align: top;
+}
+td,
+th {
+	padding: 0 em($base-line-height / 2) 0 0;
+}

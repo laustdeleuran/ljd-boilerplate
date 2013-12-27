@@ -1,0 +1,17 @@
+/**
+* Document
+*
+* @section Quarks
+* @author ljd
+*/
+html {
+	font-size: percentage($base-font-size / 16px);
+	font-family: $font-stack;
+	line-height: em($base-line-height);
+	text-rendering: optimizeLegibility;
+	color: $color-black;
+}
+html,
+body {
+	min-width: 280px;
+}

@@ -1,6 +1,6 @@
 {
-  "name": "vertic-boilerplate",
-  "version": "0.0.2",
+  "name": "ljd-boilerplate",
+  "version": "0.0.1",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.0",
@@ -27,12 +27,11 @@
     "node": ">=0.8.0"
   },
   "readmeFilename": "README.md",
-  "description": "Site name: Drink less Abstract: Website to help patients test their potential need to get treatment for alcohol dependency.",
+  "description": "LJD Boilerplate",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "",
-  "author": "Vertic Labs",
-  "license": "All rights reserved"
+  "author": "Laust Johan Deleuran"
 }

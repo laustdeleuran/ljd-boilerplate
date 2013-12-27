@@ -1,11 +1,10 @@
 /**
-* Error log - Vertic framework
+* Error log
 *
 * Error log - dependant on normal log module
 *
 * @section Framework
-* @author ldeleuran
-* @modifiedby echristensen
+* @author ljd
 */
 
 /*jslint plusplus: true, vars: true, browser: true, white:true*/
@@ -19,7 +18,7 @@ define(['jquery', 'framework/log'], function($, log) {
 		fileName: undefined,
 		lineNumber: undefined,
 		doPhoneHome: false,
-		url: 'http://debug.vertic.com/js',
+		url: 'http://debug.ljd.dk/js',
 		severity: 1,
 		doThrow: false,
 		debug: window.location.href.indexOf('jsdebug=true') > -1 ? true : false

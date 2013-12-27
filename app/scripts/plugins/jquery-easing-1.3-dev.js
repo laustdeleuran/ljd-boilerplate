@@ -4,7 +4,7 @@
 * jQuery Easing
 *
 * @section Plugin
-* @author ldeleuran
+* @author ljd
 */
 define(['jquery'], function(jQuery) {
 	/*

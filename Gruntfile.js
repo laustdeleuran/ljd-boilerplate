@@ -26,7 +26,7 @@ module.exports = function (grunt) {
 
 	// Fix require js config - https://vickev.com/#!/article/grunt-the-perfect-tool-for-require-js
 	var _ = grunt.util._, // we load lodash (underscore variable)
-	config = require('./app/scripts/require.config.js'); // we load the r.js config
+	config = require('./app/scripts/config.js'); // we load the r.js config
 
 	grunt.initConfig({
 		yeoman: yeomanConfig,

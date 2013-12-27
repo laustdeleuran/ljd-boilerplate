@@ -4,7 +4,7 @@
 * jQuery hashchange event
 *
 * @section Plugin
-* @author ldeleuran
+* @author ljd
 */
 define(['jquery'], function (jQuery) {
 	/*!

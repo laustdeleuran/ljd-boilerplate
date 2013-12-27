@@ -1,5 +1,5 @@
 {
-	"name": "Vertic Boilerplate",
+	"name": "LJD Boilerplate",
 	"version": "0.0.2",
 	"dependencies": {
 		"requirejs": "latest",

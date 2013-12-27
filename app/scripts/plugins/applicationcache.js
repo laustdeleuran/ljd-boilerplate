@@ -4,7 +4,7 @@
 * Application cache monitor
 *
 * @section module
-* @author ldeleuran
+* @author ljd
 */
 
 /*jslint plusplus: true, vars: true, browser: true, white:true*/

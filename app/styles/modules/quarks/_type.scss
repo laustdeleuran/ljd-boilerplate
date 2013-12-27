@@ -1,0 +1,22 @@
+/**
+* Typography
+*
+* @section Quarks
+* @author ljd
+*/
+p,
+ol,
+ul,
+li,
+blockquote,
+figure,
+figcaption {
+	display: block;
+	margin: 0;
+	padding: 0;
+
+	@include trailer(1);
+}
+code {
+	font-size: 0.9em;
+}

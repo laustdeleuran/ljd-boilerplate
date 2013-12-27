@@ -1,5 +1,4 @@
-# Site name: Vertic Generator
-## Abstract: Std. Vertic Generator for Yeoman, Bower and Grunt.
+# Site name: LJD Boilerplate
 
 Fill out these things in the README:
 

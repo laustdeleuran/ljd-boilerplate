@@ -4,7 +4,7 @@
 * jQuery touch events - proted from jQuery mobile
 *
 * @section Plugin
-* @author ldeleuran
+* @author ljd
 */
 define(['jquery'], function(jQuery) {
 	/*

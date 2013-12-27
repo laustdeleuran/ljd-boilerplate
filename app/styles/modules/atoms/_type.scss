@@ -1,0 +1,48 @@
+/**
+* Typography
+*
+* @section atoms
+* @author  ljd
+*/
+h1,
+.type__h1,
+h2,
+.type__h2,
+h3,
+.type__h3,
+h4,
+.type__h4,
+h5,
+.type__h5,
+h6,
+.type__h6 {
+	@include establish-baseline();
+	margin: 0;
+	padding: 0;
+
+	font-weight: 700;
+	font-style: normal;
+	font-family: $font-stack-serif;
+
+	&:first-child {
+		@include leader(0);
+	}
+}
+h1,
+.type__h1 {
+	@include adjust-font-size-to(32px);
+	@include leader(2, 32px);
+	@include trailer(1, 32px);
+}
+h2,
+.type__h2 {
+	@include adjust-font-size-to(24px, 1.5);
+	@include leader(2, 24px);
+	@include trailer(1, 24px);
+}
+h3,
+.type__h3 {
+	@include adjust-font-size-to(18px);
+	@include leader(2);
+	@include trailer(1);
+}

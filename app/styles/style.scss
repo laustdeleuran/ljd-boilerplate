@@ -1,38 +1,28 @@
 /**
 * Main project stylesheet combiner
 *
-* @section Setup
-* @author <fill-me>
+* @section framework
+* @author ljd
 */
-// ---------------------------------------------------------------------------
-// Fonts
 
-
-// ---------------------------------------------------------------------------
 // Imports
-
 @import "compass";
 
-// ---------------------------------------------------------------------------
 // Framework
+@import "framework/vars";
+@import "framework/framework";
+@import "framework/normalize";
+//@import "framework/sprites";
 
-@import "modules/framework/framework";
-@import "modules/framework/normalize";
-@import "modules/base"; // old vars.scss
-@import "modules/framework/grid";
 
-// ---------------------------------------------------------------------------
-// Default typography for the site
-
-//@import "modules/layout/sprites"; // Only enable if there are files present
-@import "modules/framework/typography";
-
-// ---------------------------------------------------------------------------
 // Modules
+	// Quarks
+	@import "modules/quarks/document";
+	@import "modules/quarks/links";
+	@import "modules/quarks/tables";
+	@import "modules/quarks/type";
 
+	// Atoms
+	@import "modules/quarks/type";
 
-
-// ---------------------------------------------------------------------------
-// Basic layout and default typography for the site
-
-@import "modules/layout/layout";
+	// Molecules
