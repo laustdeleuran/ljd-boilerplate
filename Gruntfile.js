@@ -1,4 +1,3 @@
-// Generated on 2013-03-18 using generator-webapp 0.1.5
 'use strict';
 
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
