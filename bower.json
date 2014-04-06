@@ -1,9 +1,11 @@
 {
 	"name": "LJD Boilerplate",
-	"version": "1.0.0",
+	"private": true,
 	"dependencies": {
 		"requirejs": "latest",
-		"jquery": "~1.9",
-		"modernizr": "latest"
-	}
+		"jquery": "~1.11.0",
+		"modernizr": "latest",
+		"almond": "latest"
+	},
+	"devDependencies": {}
 }
