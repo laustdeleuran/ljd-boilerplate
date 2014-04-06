@@ -1,240 +1,142 @@
-'use strict';
+module.exports = function(grunt) {
+	'use strict';
 
-var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
-
-var mountFolder = function (connect, dir) {
+	// Load grunt tasks automatically
+	require('load-grunt-tasks')(grunt);
 	
-	return connect.static(require('path').resolve(dir));
-};
+	// Time how long tasks take. Can help when optimizing build times
+	require('time-grunt')(grunt);
 
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to match all subfolders:
-// 'test/spec/**/*.js'
-
-module.exports = function (grunt) {
-	// load all grunt tasks
-	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-
-	// configurable paths
-	var yeomanConfig = {
-		app: 'app',
-		dist: 'build'
+	// Config
+	var config = {
+		dev: 'app',
+		dist: 'build',
+		host: 'localhost'
 	};
 
-	// Fix require js config - https://vickev.com/#!/article/grunt-the-perfect-tool-for-require-js
-	var _ = grunt.util._, // we load lodash (underscore variable)
-	config = require('./app/scripts/config.js'); // we load the r.js config
-
+	// Project configuration.
 	grunt.initConfig({
-		yeoman: yeomanConfig,
+		pkg: grunt.file.readJSON('package.json'),
+		config: config,
 		modernizr: {
-			// [REQUIRED] Path to the build you're using for development.
-			'devFile' : '<%= yeoman.app %>/components/modernizr/modernizr.js',
+			dist: {
+				// [REQUIRED] Path to the build you're using for development.
+				devFile : '<%= config.dev %>/components/modernizr/modernizr.js',
 
-			// [REQUIRED] Path to save out the built file.
-			'outputFile' : '<%= yeoman.app %>/scripts/libs/modernizr-built.js',
+				// [REQUIRED] Path to save out the built file.
+				'outputFile' : '<%= config.dev %>/js/<%= pkg.name %>.<%= pkg.version %>.modernizr.js',
 
-			// Based on default settings on http://modernizr.com/download/
-			'extra' : {
-				'shiv' : true,
-				'printshiv' : false,
-				'load' : true,
-				'mq' : false,
-				'cssclasses' : true
-			},
+				// Based on default settings on http://modernizr.com/download/
+				'extra' : {
+					'shiv' : true,
+					'printshiv' : false,
+					'load' : true,
+					'mq' : false,
+					'cssclasses' : true
+				},
 
-			// Based on default settings on http://modernizr.com/download/
-			'extensibility' : {
-				'addtest' : false,
-				'prefixed' : false,
-				'teststyles' : false,
-				'testprops' : false,
-				'testallprops' : false,
-				'hasevents' : false,
-				'prefixes' : false,
-				'domprefixes' : false
-			},
+				// Based on default settings on http://modernizr.com/download/
+				'extensibility' : {
+					'addtest' : false,
+					'prefixed' : false,
+					'teststyles' : false,
+					'testprops' : false,
+					'testallprops' : false,
+					'hasevents' : false,
+					'prefixes' : false,
+					'domprefixes' : false
+				},
 
-			// By default, source is uglified before saving
-			'uglify' : true,
+				// By default, source is uglified before saving
+				'uglify' : true,
 
-			// Define any tests you want to implicitly include.
-			'tests' : [],
+				// Define any tests you want to implicitly include.
+				'tests' : [],
 
-			// By default, this task will crawl your project for references to Modernizr tests.
-			// Set to false to disable.
-			'parseFiles' : true,
+				// By default, this task will crawl your project for references to Modernizr tests.
+				// Set to false to disable.
+				'parseFiles' : true,
 
-			// When parseFiles = true, this task will crawl all *.js, *.css, *.scss files, except files that are in node_modules/.
-			// You can override this by defining a 'files' array below.
-			'files' : ['<%= yeoman.app %>/scripts/{,*/}*.js','<%= yeoman.app %>/styles/{,*/}*.css'],
-			'excludeFiles': ['<%= yeoman.app %>/scripts/libs/modernizr-built.js','<%= yeoman.app %>/components/modernizr/modernizr.js'],
-
-			// When parseFiles = true, matchCommunityTests = true will attempt to
-			// match user-contributed tests.
-			'matchCommunityTests' : false,
-
-			// Have custom Modernizr tests? Add paths to their location here.
-			'customTests' : [],
-		},
-		watch: {
-			compass: {
-				files: [
-					'<%= yeoman.app %>/styles/{,*/}*.{scss,sass}',
-					'<%= yeoman.app %>/styles/modules/{,*/}*.{scss,sass}'
+				// When parseFiles = true, this task will crawl all *.js, *.css, *.scss files, except files that are in node_modules/.
+				// You can override this by defining a 'files' array below.
+				'files' : {
+					'src': [
+						'<%= config.dev %>/js/{,*/}*.js',
+						'<%= config.dev %>/styles/{,*/}*.css'
+					]
+				},
+				'excludeFiles': [
+					'<%= config.dev %>/js/<%= pkg.name %>.<%= pkg.version %>.modernizr.js',
+					'<%= config.dev %>/components/modernizr/modernizr.js'
 				],
-				tasks: ['compass']
-			},
-			livereload: {
-				files: [
-					'<%= yeoman.app %>/{,*/}*.html',
-					'{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
-					'{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-					'<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,webp}'
-				],
-				tasks: ['livereload']
+
+				// When parseFiles = true, matchCommunityTests = true will attempt to
+				// match user-contributed tests.
+				'matchCommunityTests' : false,
+
+				// Have custom Modernizr tests? Add paths to their location here.
+				'customTests' : []
 			}
 		},
 		connect: {
-			options: {
-				port: 1337,
-				// change this to '0.0.0.0' to access the server from outside
-				hostname: 'localhost'
-			},
-			livereload: {
+			server: {
 				options: {
-					middleware: function (connect) {
-						return [
-							lrSnippet,
-							mountFolder(connect, 'app')
-						];
-					}
-				}
-			},
-			test: {
-				options: {
-					middleware: function (connect) {
-						return [
-							mountFolder(connect, 'test')
-						];
-					}
+					port: 1337,
+					base: './<%= config.dev %>/',
+					open: true,
+					hostname: '<%= config.host %>'
+					//keepalive: true
 				}
 			},
 			dist: {
 				options: {
-					middleware: function (connect) {
-						return [
-							mountFolder(connect, 'dist')
-						];
-					}
+					port: 1338,
+					base: './<%= config.dist %>/',
+					open: true,
+					hostname: '<%= config.host %>',
+					keepalive: true
 				}
-			}
+			},
 		},
 		open: {
-			server: {
-				path: 'http://<%= connect.options.hostname %>:<%= connect.options.port %>'
+			all: {
+				path: 'http://<%= config.host %>:<%= connect.server.options.port %>'
 			}
 		},
 		clean: {
-			dist: ['.tmp', '<%= yeoman.app %>/styles/*.css', '<%= yeoman.app %>/images/sprites-*.png', '<%= yeoman.dist %>/*'],
-			server: ['<%= yeoman.app %>/styles/*.css']
+			dist: ['<%= config.dist %>/**', '<%= config.dev %>/styles/{,*/}*.css', '<%= config.dev %>/js/<%= pkg.name %>.*.js']
 		},
-		jshint: {
-			options: {
-				jshintrc: '.jshintrc'
-			},
-			all: [
-				'Gruntfile.js',
-				'<%= yeoman.app %>/scripts/{,*/}*.js',
-				'!<%= yeoman.app %>/scripts/libs/*',
-				'!<%= yeoman.app %>/scripts/plugins/*',
-				'!<%= yeoman.app %>/scripts/framework/*',
-				'test/spec/{,*/}*.js'
-			]
-		},
-		mocha: {
-			all: {
+		requirejs: {
+			compile: {
 				options: {
-					run: true,
-					urls: ['http://<%= connect.options.hostname %>:<%= connect.options.port %>/index.html']
+					name: 'components/almond/almond',
+					wrap: true,
+					preserveLicenseComments: false,
+					insertRequire: ['main'],
+					baseUrl: '<%= config.dev %>/js/',
+					mainConfigFile: '<%= config.dev %>/js/config.js',
+					out: '<%= config.dev %>/js/<%= pkg.name %>.<%= pkg.version %>.scripts.js'
 				}
 			}
 		},
 		compass: {
 			options: {
-				sassDir: '<%= yeoman.app %>/styles',
-				cssDir: '<%= yeoman.app %>/styles',
-				imagesDir: '<%= yeoman.app %>/images',
-				javascriptsDir: '<%= yeoman.app %>/scripts',
-				fontsDir: '<%= yeoman.app %>/styles/fonts',
-				importPath: '<%= yeoman.app %>/styles/modules',
-				relativeAssets: true,
-				outputStyle: 'expanded'
+				basePath: '',
+				imagesDir: 'images',
+				cssDir: '<%= config.dev %>/styles',
+				sassDir: '<%= config.dev %>/styles',
+				noLineComments: false,
+				outputStyle: 'expanded',
+				environment: 'development'
+			},
+			dev: {
 			},
 			dist: {
 				options: {
-					debugInfo: false,
+					cssDir: '<%= config.dist %>/styles',
 					noLineComments: true,
+					outputStyle: 'compressed',
 					environment: 'production'
-				}
-			},
-			server: {
-				options: {
-					debugInfo: true,
-					environment: 'development'
-				}
-			}
-		},
-		requirejs: {
-			compile: {
-				options: _.merge(config, {
-					name: 'main',
-					findNestedDependencies: true,
-					baseUrl: '<%= yeoman.app %>/scripts',
-					out: '<%= yeoman.app %>/scripts/main-built.js',
-					preserveLicenseComments: false,
-					useStrict: true,
-					optimize: 'uglify2',
-					generateSourceMaps: true
-				})
-			}
-		},
-		useminPrepare: {
-			html: '<%= yeoman.app %>/index.html',
-			options: {
-				dest: '<%= yeoman.app %>'
-			}
-		},
-		usemin: {
-			html: ['<%= yeoman.app %>/{,*/}*.html'],
-			css: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-			options: {
-				dirs: ['<%= yeoman.app %>']
-			}
-		},
-		imagemin: {
-			dist: {
-				files: [{
-					expand: true,
-					cwd: '<%= yeoman.app %>/images',
-					src: '{,*/}*.{png,jpg,jpeg}',
-					dest: '<%= yeoman.app %>/images'
-				}]
-			}
-		},
-		cssmin: {
-			dist: {
-				files: {
-					'<%= yeoman.app %>/styles/style.min.css': [
-						'.tmp/styles/style.css',
-						'<%= yeoman.app %>/styles/style.css'
-					],
-					'<%= yeoman.app %>/styles/print.min.css': [
-						'.tmp/styles/print.css',
-						'<%= yeoman.app %>/styles/print.css'
-					]
 				}
 			}
 		},
@@ -242,63 +144,93 @@ module.exports = function (grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					dot: true,
-					cwd: '<%= yeoman.app %>',
-					dest: '<%= yeoman.app %>',
-					src: [
-						'*.{ico,txt}',
-						'.htaccess'
-					]
+					cwd: '<%= config.dev %>/',
+					src: ['images/**', 'fonts/**', 'html/**', 'js/<%= pkg.name %>.<%= pkg.version %>.*.js'],
+					dest: '<%= config.dist %>/',
+					filter: 'isFile'
+				}, ]
+			},
+			'show-built':  {
+				files: [{
+					expand: true,
+					cwd: '<%= config.dev %>/',
+					src: ['index.html'],
+					dest: '<%= config.dist %>/',
+					filter: 'isFile'
+				}, ]
+			}
+		},
+		imagemin: {
+			dynamic: {
+				expand: true, // Enable dynamic expansion
+				cwd: '<%= config.dist %>/images/', // Src matches are relative to this path
+				src: ['**/*.{png,jpg,gif}'], // Actual patterns to match
+				dest: '<%= config.dist %>/images/' // Destination path prefix
+			}
+		},
+		replace: {
+			scripts: {
+				src: ['<%= config.dist %>/html/{,*/}*.html'],
+				dest: '<%= config.dist %>/html/',
+				replacements: [{
+					from: '<script src="/components/modernizr/modernizr.js"></script>',
+					to: '<script src="/js/<%= pkg.name %>.<%= pkg.version %>.modernizr.js"></script>'
+				}, {
+					from: '<script data-main="/js/config" src="/components/requirejs/require.js"></script>',
+					to: ''
+				}, {
+					from: '<!-- <script src="{{minified.script.js}}"></script> -->',
+					to: '<script src="/js/<%= pkg.name %>.<%= pkg.version %>.scripts.js"></script>'
 				}]
 			}
 		},
-		bower: {
-			all: {
-				rjsConfig: '<%= yeoman.app %>/scripts/main.js'
+		watch: {
+			sass: {
+				files: ['<%= config.dev %>/styles/{,*/}{,*/}*.scss'],
+				tasks: ['compass:dev'],
+			},
+			livereload: {
+				files: [
+					'<%= config.dev %>/styles/{,*/}*.css',
+					'<%= config.dev %>/js/{,*/}*.js',
+					'<%= config.dev %>/templates/{,*/}*.html',
+					'<%= config.dev %>/templates/{,*/}*.hbs',
+					'<%= config.dev %>/*.html',
+					'<%= config.dev %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
+				],
+				options: {
+					livereload: true,
+				}
+			},
+		},
+		bump: { // https://github.com/vojtajina/grunt-bump
+			options: {
+				pushTo: 'origin'
 			}
 		}
 	});
 
-	grunt.renameTask('regarde', 'watch');
-
-	grunt.registerTask('server', function (target) {
-
-		if (target === 'dist') {
-			return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
-		}
-
-		grunt.task.run([
-			'clean:server',
-			'compass:server',
-			'livereload-start',
-			'connect:livereload',
-			'open',
-			'watch'
-		]);
-	});
-
-	grunt.registerTask('test', [
-		'clean:server',
-		'compass',
-		'connect:test',
-		'mocha'
-	]);
-
+	// Build for distribution to 3rd party vendor
 	grunt.registerTask('build', [
 		'clean:dist',
-		'compass:dist',
-		'modernizr',
-		'useminPrepare',
 		'requirejs',
+		'modernizr',
+		'compass:dist',
+		'copy:dist',
 		'imagemin',
-		'cssmin',
-		'copy',
-		'usemin'
+		'replace:scripts'
 	]);
 
-	grunt.registerTask('default', [
-		'jshint',
-		'test',
-		'build'
+	// Show build results
+	grunt.registerTask('show-built', [
+		'copy:show-built',
+		'connect:dist'
+	]);
+
+	// Run simple server for development
+	grunt.registerTask('server', [
+		'compass:dev',
+		'connect:server',
+		'watch'
 	]);
 };
