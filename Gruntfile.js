@@ -145,7 +145,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					cwd: '<%= config.dev %>/',
-					src: ['images/**', 'fonts/**', 'templates/**', 'scripts/<%= pkg.name %>.<%= pkg.version %>.*.min.js'],
+					src: ['images/**', 'fonts/**', 'templates/**', 'scripts/<%= pkg.name %>.<%= pkg.version %>.*.min.js', '*.ico'],
 					dest: '<%= config.dist %>/',
 					filter: 'isFile'
 				}, ]
