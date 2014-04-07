@@ -18,7 +18,7 @@
     grunt build
     grunt show-built
 
-The `build step compiles, concatenates and minifies all CSS and JS, and replaces the links in the HTML templates. It also minifies all images. The `grunt show-built` starts a dumb web server to show the built files, to make sure everything works as it should.
+The `build` step compiles, concatenates and minifies all CSS and JS, and replaces the links in the HTML templates. It also minifies all images. The `grunt show-built` starts a dumb web server to show the built files, to make sure everything works as it should.
 
 ## Known issues
 
