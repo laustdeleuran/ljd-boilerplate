@@ -24,7 +24,7 @@ module.exports = function(grunt) {
 				devFile : '<%= config.dev %>/components/modernizr/modernizr.js',
 
 				// [REQUIRED] Path to save out the built file.
-				'outputFile' : '<%= config.dev %>/js/<%= pkg.name %>.<%= pkg.version %>.modernizr.js',
+				'outputFile' : '<%= config.dev %>/scripts/<%= pkg.name %>.<%= pkg.version %>.modernizr.min.js',
 
 				// Based on default settings on http://modernizr.com/download/
 				'extra' : {
@@ -61,12 +61,12 @@ module.exports = function(grunt) {
 				// You can override this by defining a 'files' array below.
 				'files' : {
 					'src': [
-						'<%= config.dev %>/js/{,*/}*.js',
+						'<%= config.dev %>/scripts/{,*/}*.js',
 						'<%= config.dev %>/styles/{,*/}*.css'
 					]
 				},
 				'excludeFiles': [
-					'<%= config.dev %>/js/<%= pkg.name %>.<%= pkg.version %>.modernizr.js',
+					'<%= config.dev %>/scripts/<%= pkg.name %>.<%= pkg.version %>.modernizr.js',
 					'<%= config.dev %>/components/modernizr/modernizr.js'
 				],
 
@@ -104,18 +104,18 @@ module.exports = function(grunt) {
 			}
 		},
 		clean: {
-			dist: ['<%= config.dist %>/**', '<%= config.dev %>/styles/{,*/}*.css', '<%= config.dev %>/js/<%= pkg.name %>.*.js']
+			dist: ['<%= config.dist %>/**', '<%= config.dev %>/styles/{,*/}*.css', '<%= config.dev %>/scripts/<%= pkg.name %>.*.min.js']
 		},
 		requirejs: {
 			compile: {
 				options: {
-					name: 'components/almond/almond',
+					name: '../components/almond/almond',
 					wrap: true,
 					preserveLicenseComments: false,
 					insertRequire: ['main'],
-					baseUrl: '<%= config.dev %>/js/',
-					mainConfigFile: '<%= config.dev %>/js/config.js',
-					out: '<%= config.dev %>/js/<%= pkg.name %>.<%= pkg.version %>.scripts.js'
+					baseUrl: '<%= config.dev %>/scripts/',
+					mainConfigFile: '<%= config.dev %>/scripts/config.js',
+					out: '<%= config.dev %>/scripts/<%= pkg.name %>.<%= pkg.version %>.scripts.min.js'
 				}
 			}
 		},
@@ -145,7 +145,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					cwd: '<%= config.dev %>/',
-					src: ['images/**', 'fonts/**', 'html/**', 'js/<%= pkg.name %>.<%= pkg.version %>.*.js'],
+					src: ['images/**', 'fonts/**', 'templates/**', 'scripts/<%= pkg.name %>.<%= pkg.version %>.*.min.js'],
 					dest: '<%= config.dist %>/',
 					filter: 'isFile'
 				}, ]
@@ -170,17 +170,17 @@ module.exports = function(grunt) {
 		},
 		replace: {
 			scripts: {
-				src: ['<%= config.dist %>/html/{,*/}*.html'],
-				dest: '<%= config.dist %>/html/',
+				src: ['<%= config.dist %>/templates/{,*/}*.html', '<%= config.dist %>/templates/{,*/}*.hbs'],
+				overwrite: true,
 				replacements: [{
 					from: '<script src="/components/modernizr/modernizr.js"></script>',
-					to: '<script src="/js/<%= pkg.name %>.<%= pkg.version %>.modernizr.js"></script>'
+					to: '<script src="/scripts/<%= pkg.name %>.<%= pkg.version %>.modernizr.min.js"></script>'
 				}, {
-					from: '<script data-main="/js/config" src="/components/requirejs/require.js"></script>',
+					from: '<script data-main="/scripts/config" src="/components/requirejs/require.js"></script>',
 					to: ''
 				}, {
-					from: '<!-- <script src="{{minified.script.js}}"></script> -->',
-					to: '<script src="/js/<%= pkg.name %>.<%= pkg.version %>.scripts.js"></script>'
+					from: '<!-- <script src="scripts.min.js"></script> -->',
+					to: '<script src="/scripts/<%= pkg.name %>.<%= pkg.version %>.scripts.min.js"></script>'
 				}]
 			}
 		},
@@ -192,7 +192,7 @@ module.exports = function(grunt) {
 			livereload: {
 				files: [
 					'<%= config.dev %>/styles/{,*/}*.css',
-					'<%= config.dev %>/js/{,*/}*.js',
+					'<%= config.dev %>/scripts/{,*/}*.js',
 					'<%= config.dev %>/templates/{,*/}*.html',
 					'<%= config.dev %>/templates/{,*/}*.hbs',
 					'<%= config.dev %>/*.html',

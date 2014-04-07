@@ -8,7 +8,7 @@
 			// Framework
 			'core': 'framework/core',
 			// Libs
-			'jquery': '../components/jquery/jquery',
+			'jquery': '../components/jquery/dist/jquery',
 			// Plugins
 			'touchevents': 'plugins/jquery-mobile-1.1.1-touchevents',
 			'debouncedevents': 'plugins/jquery-debouncedevents',
