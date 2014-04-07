@@ -19,6 +19,6 @@ require([
 
 	// Document ready
 	$(function () {
-
+		core.log(core);
 	});
 });
