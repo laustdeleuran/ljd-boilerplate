@@ -53,3 +53,26 @@
 		@content;
 	}
 }
+@mixin media($point) {
+	@if $point == desktop {
+		@media screen and (min-width: $mq-desktop) { @content; }
+	}
+	@if $point == tabletH {
+		@media screen and (min-width: $mq-table-horizontal)  { @content; }
+	}
+	@if $point == tabletV {
+		@media screen and (max-width: $mq-table-vertical)  { @content; }
+	}
+	@else if $point == mobileH {
+		@media screen and (max-width: $mq-mobile-horizontal)  { @content; }
+	}
+	@else if $point == mobileV {
+		@media screen and (max-width: $mq-mobile-vertical)  { @content; }
+	}
+	@else if $point == retina {
+		@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { @content; }
+	}
+	@else if $point == print {
+		@media print { @content; }
+	}
+}
