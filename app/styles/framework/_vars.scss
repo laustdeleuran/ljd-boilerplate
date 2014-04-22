@@ -9,6 +9,13 @@
 $base-font-size: 16px;
 $base-line-height: 22px;
 
+//Media Queries
+$mq-desktop: 1200px;
+$mq-tablet-horizontal: 1024px;
+$mq-tablet-vertical: 1023px;
+$mq-mobile-horizontal: 767px;
+$mq-mobile-vertical: 320px;
+
 // Project variables
 $color-blue: rgb(0, 0, 255);
 $color-black: rgb(0, 0, 0);
